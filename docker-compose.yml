@@ -24,6 +24,8 @@ services:
     container_name: 'ssys-test-app'
     image: milton-castro-ssys-test
     build: ./
+    env_file:
+      - ./.env
     command: npm start
     ports:
       - '3001:3001'
