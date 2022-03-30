@@ -24,4 +24,13 @@ const login = async (req, res, next) => {
   res.status(200).json({ token });
 };
 
-module.exports = { getAll, create, login };
+const update = async (req, res, next) => {
+  const { id } = req.params;
+  const { password, birth_date } = req.body;
+  const employee = await EmployeesService
+    .update(id, { ...req.body, birth_date: new Date(birth_date), password: md5(password) });
+  if (employee.error) return next(employee.error);
+  res.status(200).json(employee);
+};
+
+module.exports = { getAll, create, login, update };

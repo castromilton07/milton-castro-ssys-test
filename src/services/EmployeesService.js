@@ -36,4 +36,13 @@ const login = async ({ email, password }) => {
   return employee.dataValues;
 };
 
-module.exports = { getAll, create, login };
+const update = async (id, employeeData) => {
+  const employee = await Employee.findByPk(id, { attributes: { exclude: ['password'] } });
+  if (!employee) return errors.employeeNotFound;
+  const employeeError = await validate.requiredEmployeeData(employeeData);
+  if (employeeError) return errors.invalidEntries;
+  await Employee.update(employeeData, { where: { id } });
+  return Employee.findByPk(id);
+};
+
+module.exports = { getAll, create, login, update };
