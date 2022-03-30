@@ -32,7 +32,7 @@ const errors = {
   employeeNotFound: {
     error: {
       status: 404,
-      message: 'Not Found: Employee don"t exists in database',
+      message: 'Not Found: Employee don\'t exists in database',
     },
   },
 };
