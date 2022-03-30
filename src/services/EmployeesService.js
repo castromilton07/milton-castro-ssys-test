@@ -52,4 +52,14 @@ const removeById = async (id) => {
   return deletedEmployee;
 };
 
-module.exports = { getAll, create, login, update, removeById };
+const getById = async (id) => {
+  const employee = await Employee.findByPk(id, { attributes: { exclude: ['password'] } });
+  if (!employee) return errors.employeeNotFound;
+  const birthDate = new Date(employee.dataValues.birth_date);
+  return {
+    ...employee.dataValues,
+    birth_date: birthDate.toLocaleDateString('pt-BR').replaceAll('/', '-'),
+  };
+};
+
+module.exports = { getAll, create, login, update, removeById, getById };

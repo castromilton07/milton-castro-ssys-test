@@ -11,7 +11,7 @@ router.post('/employees', EmployeesController.create);
 router.post('/login', EmployeesController.login);
 router.patch(employeeRoute, jwt.validate, EmployeesController.update);
 router.delete(employeeRoute, jwt.validate, EmployeesController.removeById);
-// router.get(employeeRoute);
+router.get(employeeRoute, jwt.validate, EmployeesController.getById);
 
 // router.get('/reports/employees/salary');
 // router.get('/reports/employees/age');
