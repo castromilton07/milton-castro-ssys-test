@@ -5,6 +5,8 @@ const sequelize = new Sequelize(configSequelize);
 
 const queryLowest = 'SELECT * FROM `Employees` ORDER BY salary ASC LIMIT 1';
 const queryHighest = 'SELECT * FROM `Employees` ORDER BY salary DESC LIMIT 1';
+const queryYounger = 'SELECT * FROM `Employees` ORDER BY birth_date DESC LIMIT 1';
+const queryOlder = 'SELECT * FROM `Employees` ORDER BY birth_date ASC LIMIT 1';
 
 const getBySalaryRange = async () => {
   const employeeLowest = await sequelize.query(queryLowest, { type: QueryTypes.SELECT });
@@ -25,4 +27,25 @@ const getBySalaryRange = async () => {
   };
 };
 
-module.exports = { getBySalaryRange };
+const getByAgeRange = async () => {
+  const employeeYounger = await sequelize.query(queryYounger, { type: QueryTypes.SELECT });
+  const employeeOlder = await sequelize.query(queryOlder, { type: QueryTypes.SELECT });
+  delete employeeYounger[0].password;
+  delete employeeOlder[0].password;
+  let youngerBirthDate = new Date(employeeYounger[0].birth_date);
+  let olderBirthDate = new Date(employeeOlder[0].birth_date);
+  const diffTimeYounger = Math.abs(Date.now() - youngerBirthDate);
+  const youngerAge = Math.floor((diffTimeYounger / (1000 * 60 * 60 * 24)) / 365);
+  const diffTimeOlder = Math.abs(Date.now() - olderBirthDate);
+  const olderAge = Math.floor((diffTimeOlder / (1000 * 60 * 60 * 24)) / 365);
+  const averageAge = ((youngerAge + olderAge) / 2).toFixed(2);
+  youngerBirthDate = youngerBirthDate.toLocaleDateString('pt-BR').replaceAll('/', '-');
+  olderBirthDate = olderBirthDate.toLocaleDateString('pt-BR').replaceAll('/', '-');
+  return {
+    younger: { ...employeeYounger[0], birth_date: youngerBirthDate },
+    older: { ...employeeOlder[0], birth_date: olderBirthDate },
+    average: averageAge,
+  };
+};
+
+module.exports = { getBySalaryRange, getByAgeRange };

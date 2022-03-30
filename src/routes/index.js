@@ -15,6 +15,6 @@ router.delete(employeeRoute, jwt.validate, EmployeesController.removeById);
 router.get(employeeRoute, jwt.validate, EmployeesController.getById);
 
 router.get('/reports/employees/salary', jwt.validate, ReportsController.getBySalaryRange);
-// router.get('/reports/employees/age');
+router.get('/reports/employees/age', jwt.validate, ReportsController.getByAgeRange);
 
 module.exports = router;

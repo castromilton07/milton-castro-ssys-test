@@ -5,4 +5,9 @@ const getBySalaryRange = async (_req, res) => {
   res.status(200).json(employees);
 };
 
-module.exports = { getBySalaryRange };
+const getByAgeRange = async (_req, res) => {
+  const employees = await ReportsService.getByAgeRange();
+  res.status(200).json(employees);
+};
+
+module.exports = { getBySalaryRange, getByAgeRange };
