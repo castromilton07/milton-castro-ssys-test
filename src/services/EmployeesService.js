@@ -28,8 +28,9 @@ const create = async (employeeData) => {
 };
 
 const login = async ({ email, password }) => {
-  const employeeError = await validate
-    .requiredEmployeeData(null, email, password, null, null, null);
+  const employeeError = await validate.requiredEmployeeData(
+    { name: null, email, password, department: null, salary: null, birth_date: null },
+  );
   if (employeeError) return errors.invalidEntries;
   const employee = await Employee.findOne({ where: { email, password: md5(password) } });
   if (!employee) return errors.invalidFields;
