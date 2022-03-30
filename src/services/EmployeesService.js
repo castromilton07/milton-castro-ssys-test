@@ -45,4 +45,11 @@ const update = async (id, employeeData) => {
   return Employee.findByPk(id);
 };
 
-module.exports = { getAll, create, login, update };
+const removeById = async (id) => {
+  const employee = await Employee.findByPk(id, { attributes: { exclude: ['password'] } });
+  if (!employee) return errors.employeeNotFound;
+  const deletedEmployee = await Employee.destroy({ where: { id } });
+  return deletedEmployee;
+};
+
+module.exports = { getAll, create, login, update, removeById };

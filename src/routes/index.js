@@ -10,7 +10,7 @@ router.get('/employees', jwt.validate, EmployeesController.getAll);
 router.post('/employees', EmployeesController.create);
 router.post('/login', EmployeesController.login);
 router.patch(employeeRoute, jwt.validate, EmployeesController.update);
-// router.delete(employeeRoute);
+router.delete(employeeRoute, jwt.validate, EmployeesController.removeById);
 // router.get(employeeRoute);
 
 // router.get('/reports/employees/salary');

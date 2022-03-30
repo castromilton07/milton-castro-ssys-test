@@ -33,4 +33,11 @@ const update = async (req, res, next) => {
   res.status(200).json(employee);
 };
 
-module.exports = { getAll, create, login, update };
+const removeById = async (req, res, next) => {
+  const { id } = req.params;
+  const employee = await EmployeesService.removeById(id);
+  if (employee.error) return next(employee.error);
+  res.status(204).json();
+};
+
+module.exports = { getAll, create, login, update, removeById };
