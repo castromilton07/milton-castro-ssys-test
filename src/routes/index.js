@@ -1,10 +1,12 @@
 const express = require('express');
+const jwt = require('../auth/jwt');
+const EmployeesController = require('../controllers/EmployeesController');
 
 const router = express.Router();
 
 // const employeeRoute = '/employees/:id';
 
-// router.get('/employees');
+router.get('/employees', jwt.validate, EmployeesController.getAll);
 // router.post('/employees');
 // router.post('/login');
 // router.patch(employeeRoute);
