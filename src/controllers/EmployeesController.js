@@ -1,4 +1,3 @@
-const md5 = require('md5');
 const EmployeesService = require('../services/EmployeesService');
 const jwt = require('../auth/jwt');
 
@@ -9,7 +8,7 @@ const getAll = async (_req, res) => {
 
 const create = async (req, res, next) => {
   const { email, password } = req.body;
-  const employee = await EmployeesService.create({ ...req.body, password: md5(password) });
+  const employee = await EmployeesService.create(req.body);
   if (employee.error) return next(employee.error);
   const token = await jwt.generate({ email, password });
   console.log(token);
@@ -26,9 +25,7 @@ const login = async (req, res, next) => {
 
 const update = async (req, res, next) => {
   const { id } = req.params;
-  const { password, birth_date } = req.body;
-  const employee = await EmployeesService
-    .update(id, { ...req.body, birth_date: new Date(birth_date), password: md5(password) });
+  const employee = await EmployeesService.update(id, req.body);
   if (employee.error) return next(employee.error);
   res.status(200).json(employee);
 };

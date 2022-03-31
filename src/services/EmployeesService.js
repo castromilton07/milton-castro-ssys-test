@@ -20,10 +20,15 @@ const getAll = async () => {
 const create = async (employeeData) => {
   const employeeError = await validate.requiredEmployeeData(employeeData);
   if (employeeError) return errors.invalidEntries;
-  const { email } = employeeData;
+  const { email, password, birth_date } = employeeData;
   const employee = await Employee.findOne({ where: { email } });
   if (employee) return errors.alreadyRegistered;
-  const newEmployee = await Employee.create(employeeData);
+  const formatedEmpoyeeData = {
+    ...employeeData,
+    password: md5(password),
+    birth_date: new Date(birth_date),
+  };
+  const newEmployee = await Employee.create(formatedEmpoyeeData);
   return newEmployee.dataValues;
 };
 
@@ -38,12 +43,24 @@ const login = async ({ email, password }) => {
 };
 
 const update = async (id, employeeData) => {
-  const employee = await Employee.findByPk(id, { attributes: { exclude: ['password'] } });
+  let employee = await Employee.findByPk(id, { attributes: { exclude: ['password'] } });
   if (!employee) return errors.employeeNotFound;
   const employeeError = await validate.requiredEmployeeData(employeeData);
   if (employeeError) return errors.invalidEntries;
-  await Employee.update(employeeData, { where: { id } });
-  return Employee.findByPk(id);
+  const { password, birth_date } = employeeData;
+  const formatedEmpoyeeData = {
+    ...employeeData,
+    password: md5(password),
+    birth_date: new Date(birth_date),
+  };
+  await Employee.update(formatedEmpoyeeData, { where: { id } });
+  employee = await Employee.findByPk(id);
+  const birthDate = new Date(employee.dataValues.birth_date);
+  return {
+    ...employee.dataValues,
+    birth_date: birthDate.toLocaleDateString('pt-BR').replaceAll('/', '-'),
+    password,
+  };
 };
 
 const removeById = async (id) => {
