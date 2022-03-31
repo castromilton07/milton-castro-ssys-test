@@ -26,7 +26,7 @@ const errors = {
   invalidDate: {
     error: {
       status: 400,
-      message: 'Bad Request: \'birth_date\' must be a valid date formated like dd/mm/yyyy',
+      message: 'Bad Request: \'birth_date\' must be a valid date formated like dd-mm-yyyy',
     },
   },
   invalidEntries: {
