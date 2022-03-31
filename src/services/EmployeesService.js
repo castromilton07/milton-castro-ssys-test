@@ -18,8 +18,8 @@ const getAll = async () => {
 };
 
 const create = async (employeeData) => {
-  const employeeError = await validate.requiredEmployeeData(employeeData);
-  if (employeeError) return errors.invalidEntries;
+  const invalidDataError = validate.checkIsValidData(employeeData);
+  if (invalidDataError) return invalidDataError;
   const { email, password, birth_date } = employeeData;
   const employee = await Employee.findOne({ where: { email } });
   if (employee) return errors.alreadyRegistered;
@@ -33,7 +33,7 @@ const create = async (employeeData) => {
 };
 
 const login = async ({ email, password }) => {
-  const employeeError = await validate.requiredEmployeeData(
+  const employeeError = validate.requiredEmployeeData(
     { name: null, email, password, department: null, salary: null, birth_date: null },
   );
   if (employeeError) return errors.invalidEntries;
@@ -45,8 +45,8 @@ const login = async ({ email, password }) => {
 const update = async (id, employeeData) => {
   let employee = await Employee.findByPk(id, { attributes: { exclude: ['password'] } });
   if (!employee) return errors.employeeNotFound;
-  const employeeError = await validate.requiredEmployeeData(employeeData);
-  if (employeeError) return errors.invalidEntries;
+  const invalidDataError = validate.checkIsValidData(employeeData);
+  if (invalidDataError) return invalidDataError;
   const { password, birth_date } = employeeData;
   const formatedEmpoyeeData = {
     ...employeeData,

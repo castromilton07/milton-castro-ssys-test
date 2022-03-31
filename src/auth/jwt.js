@@ -3,7 +3,7 @@ const errors = require('../util/errors');
 require('dotenv').config();
 
 const jwtConfig = {
-  expiresIn: '4h',
+  expiresIn: '1h',
   algorithm: 'HS256',
 };
 

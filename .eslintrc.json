@@ -3,6 +3,7 @@
   "extends": ["trybe-backend"],
   "rules": {
     "camelcase": 0,
-    "max-params": 0
+    "max-params": 0,
+    "complexity": 0
   }
 }
