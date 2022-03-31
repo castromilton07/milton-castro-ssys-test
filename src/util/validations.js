@@ -29,10 +29,10 @@ const lengthData = (name, password, department) => {
 const lengthDataVerification = (name, password, department) => {
   const data = lengthData(name, password, department);
   if (data === '\'name\'') {
-    return `Bad Request: ${data} ${errors.lengthData.error.message} at least 8 characters long`;
+    return `Bad Request: ${data} ${errors.lengthData.error.message} at least 8 characters long.`;
   }
   if (data === '\'password\'' || data === '\'department\'') {
-    return `Bad Request: ${data} ${errors.lengthData.error.message} 6 characters long`;
+    return `Bad Request: ${data} ${errors.lengthData.error.message} 6 characters long.`;
   }
 };
 

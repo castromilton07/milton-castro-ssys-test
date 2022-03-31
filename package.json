@@ -31,7 +31,8 @@
     "md5": "2.3.0",
     "mysql2": "^2.3.3",
     "path": "^0.12.7",
-    "sequelize": "^6.17.0"
+    "sequelize": "^6.17.0",
+    "shelljs": "0.8.4"
   },
   "devDependencies": {
     "chai": "4.3.4",

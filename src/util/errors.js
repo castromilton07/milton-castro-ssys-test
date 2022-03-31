@@ -14,19 +14,19 @@ const errors = {
   invalidEmail: {
     error: {
       status: 400,
-      message: 'Bad Request: \'email\' must be a valid email',
+      message: 'Bad Request: \'email\' must be a valid email.',
     },
   },
   invalidSalary: {
     error: {
       status: 400,
-      message: 'Bad Request: \'salary\' must be gratter than 0',
+      message: 'Bad Request: \'salary\' must be greater than 0.',
     },
   },
   invalidDate: {
     error: {
       status: 400,
-      message: 'Bad Request: \'birth_date\' must be a valid date formated like dd-mm-yyyy',
+      message: 'Bad Request: \'birth_date\' must be a valid date formated like dd-mm-yyyy.',
     },
   },
   invalidEntries: {
