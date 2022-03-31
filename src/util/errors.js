@@ -38,7 +38,7 @@ const errors = {
   invalidFields: {
     error: {
       status: 400,
-      message: 'Bad Request: \'email\' address or "password" is incorrect.',
+      message: 'Bad Request: \'email\' address or \'password\' is incorrect.',
     },
   },
   missingToken: {
