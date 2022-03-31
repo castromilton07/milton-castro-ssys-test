@@ -1,8 +1,15 @@
+/* eslint-disable max-lines-per-function */
+
 const md5 = require('md5');
 const { Employee } = require('../database/models');
 
 const errors = require('../util/errors');
 const validate = require('../util/validations');
+
+const getByEmail = async (email) => {
+  const employee = await Employee.findOne({ where: { email } });
+  return employee.dataValues.id;
+};
 
 const getAll = async () => {
   const employees = await Employee.findAll({ attributes: { exclude: ['password'] } });
@@ -42,9 +49,11 @@ const login = async ({ email, password }) => {
   return employee.dataValues;
 };
 
-const update = async (id, employeeData) => {
+const update = async (id, email, employeeData) => {
   let employee = await Employee.findByPk(id, { attributes: { exclude: ['password'] } });
   if (!employee) return errors.employeeNotFound;
+  const employeeId = await getByEmail(email);
+  if (parseInt(id, 10) !== parseInt(employeeId, 10)) return errors.invalidAccess;
   const invalidDataError = validate.checkIsValidData(employeeData);
   if (invalidDataError) return invalidDataError;
   const { password, birth_date } = employeeData;
@@ -63,9 +72,11 @@ const update = async (id, employeeData) => {
   };
 };
 
-const removeById = async (id) => {
+const removeById = async (id, email) => {
   const employee = await Employee.findByPk(id, { attributes: { exclude: ['password'] } });
   if (!employee) return errors.employeeNotFound;
+  const employeeId = await getByEmail(email);
+  if (parseInt(id, 10) !== parseInt(employeeId, 10)) return errors.invalidAccess;
   const deletedEmployee = await Employee.destroy({ where: { id } });
   return deletedEmployee;
 };

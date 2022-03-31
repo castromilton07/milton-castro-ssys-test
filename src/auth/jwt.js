@@ -12,7 +12,7 @@ const validate = async (req, _res, next) => {
   if (!token) return next(errors.missingToken.error);
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = { id: decoded.id };
+    req.employee = { email: decoded.email };
     next();
   } catch (err) {
     return next({ status: 401, message: errors.invalidToken.error.message });

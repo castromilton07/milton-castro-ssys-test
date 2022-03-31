@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 /* eslint-disable max-lines-per-function */
 /* eslint-disable sonarjs/no-duplicate-string */
 
@@ -7,14 +6,14 @@ const shell = require('shelljs');
 
 const url = 'http://localhost:3001';
 
-describe('Verifica o endpoint POST `/employee` funciona corretamente', () => {
+describe('Check POST endpoint `/employee` works correctly', () => {
   beforeEach(() => {
     shell.exec('npx sequelize db:drop');
     shell.exec('npx sequelize db:create');
     shell.exec('npx sequelize db:migrate');
   });
 
-  it('Será validado que é possível cadastrar um funcionário com sucesso', async () => {
+  it('It will be validated that it is possible to register an employee successfully', async () => {
     await frisby
       .post(`${url}/employees`,
         {
@@ -32,7 +31,8 @@ describe('Verifica o endpoint POST `/employee` funciona corretamente', () => {
       });
   });
 
-  it('Será validado que não é possível cadastrar funcionário com o campo `name` menor que 8 caracteres', async () => {
+  it('It will be validated that it is not possible to register an employee with '
+      + 'the `name` field less than 8 characters', async () => {
     await frisby
       .post(`${url}/employees`,
         {
@@ -46,11 +46,13 @@ describe('Verifica o endpoint POST `/employee` funciona corretamente', () => {
       .expect('status', 400)
       .then((response) => {
         const { json } = response;
-        expect(json.message).toBe('Bad Request: \'name\' length must be at least 8 characters long.');
+        expect(json.message)
+          .toBe('Bad Request: \'name\' length must be at least 8 characters long.');
       });
   });
 
-  it('Será validado que não é possível cadastrar funcionário com o campo `email` com formato incorreto', async () => {
+  it('It will be validated that it is not possible to register an employee with '
+      + 'the `email` field with incorrect format', async () => {
     await frisby
       .post(`${url}/employees`,
         {
@@ -68,7 +70,7 @@ describe('Verifica o endpoint POST `/employee` funciona corretamente', () => {
       });
   });
 
-  it('Será validado que o campo `email` é obrigatório', async () => {
+  it('It will be validated that the `email` field is mandatory', async () => {
     await frisby
       .post(`${url}/employees`,
         {
@@ -85,7 +87,8 @@ describe('Verifica o endpoint POST `/employee` funciona corretamente', () => {
       });
   });
 
-  it('Será validado que não é possível cadastrar funcionário com o campo `salary` inválido', async () => {
+  it('It will be validated that it is not possible to register an employee '
+      + 'with an invalid `salary` field', async () => {
     await frisby
       .post(`${url}/employees`,
         {
@@ -103,7 +106,8 @@ describe('Verifica o endpoint POST `/employee` funciona corretamente', () => {
       });
   });
 
-  it('Será validado que não é possível cadastrar funcionário com o campo `birth_date` com formato incorreto', async () => {
+  it('It will be validated that it is not possible to register an employee '
+      + 'with the `birth_date` field with incorrect format', async () => {
     await frisby
       .post(`${url}/employees`,
         {
@@ -117,11 +121,13 @@ describe('Verifica o endpoint POST `/employee` funciona corretamente', () => {
       .expect('status', 400)
       .then((response) => {
         const { json } = response;
-        expect(json.message).toBe('Bad Request: \'birth_date\' must be a valid date formated like dd-mm-yyyy.');
+        expect(json.message)
+          .toBe('Bad Request: \'birth_date\' must be a valid date formated like dd-mm-yyyy.');
       });
   });
 
-  it('Será validado que não é possível cadastrar funcionário com o campo `password` menor que 6 caracteres', async () => {
+  it('It will be validated that it is not possible to register an employee with '
+      + 'the `password` field shorter than 6 characters', async () => {
     await frisby
       .post(`${url}/employees`,
         {
@@ -139,7 +145,8 @@ describe('Verifica o endpoint POST `/employee` funciona corretamente', () => {
       });
   });
 
-  it('Será validado que não é possível cadastrar funcionário com o campo `department` menor que 6 caracteres', async () => {
+  it('It will be validated that it is not possible to register an employee with '
+      + 'the `department` field less than 6 characters', async () => {
     await frisby
       .post(`${url}/employees`,
         {
@@ -157,7 +164,7 @@ describe('Verifica o endpoint POST `/employee` funciona corretamente', () => {
       });
   });
 
-  it('Será validado que o campo `password` é obrigatório', async () => {
+  it('It will be validated that the `password` field is mandatory', async () => {
     await frisby
       .post(`${url}/employees`,
         {
@@ -174,7 +181,8 @@ describe('Verifica o endpoint POST `/employee` funciona corretamente', () => {
       });
   });
 
-  it('Validar que não é possível cadastrar um funcionário com email já existente', async () => {
+  it('Validate that it is not possible to register an employee with an '
+      + 'existing email', async () => {
     await frisby
       .post(`${url}/employees`,
         {

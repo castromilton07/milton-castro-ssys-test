@@ -7,7 +7,7 @@ const shell = require('shelljs');
 
 const url = 'http://localhost:3001';
 
-describe('Verifica o endpoint DELETE `/employee/:id` funciona corretamente', () => {
+describe('Checks DELETE endpoint `/employee/:id` works correctly', () => {
   beforeEach(() => {
     shell.exec('npx sequelize db:drop');
     shell.exec('npx sequelize db:create');
@@ -15,7 +15,7 @@ describe('Verifica o endpoint DELETE `/employee/:id` funciona corretamente', () 
     shell.exec('npx sequelize db:seed:all');
   });
 
-  it('Será validado que é possível deletar um funcionário com sucesso', async () => {
+  it('It will be validated that it is possible to successfully delete an employee', async () => {
     let token;
     await frisby
       .post(`${url}/login`,
@@ -43,7 +43,7 @@ describe('Verifica o endpoint DELETE `/employee/:id` funciona corretamente', () 
       .expect('status', 204);
   });
 
-  it('Será validado que não é possível deletar um funcionário inexistente', async () => {
+  it('It will be validated that it is not possible to delete a non-existent employee', async () => {
     let token;
     await frisby
       .post(`${url}/login`,
@@ -75,7 +75,42 @@ describe('Verifica o endpoint DELETE `/employee/:id` funciona corretamente', () 
       });
   });
 
-  it('Será validado que não é possível deletar um funcionário sem o token', async () => {
+  it('It will be validated that it is not possible to delete a blogpost with '
+      + 'another user', async () => {
+    let token;
+    await frisby
+      .post(`${url}/login`,
+        {
+          email: 'kenobi@ssys.com.br',
+          password: 'kenobissys456',
+        })
+      .expect('status', 200)
+      .then((response) => {
+        const { body } = response;
+        const result = JSON.parse(body);
+        token = result.token;
+      });
+
+    await frisby
+      .setup({
+        request: {
+          headers: {
+            Authorization: token,
+            'Content-Type': 'application/json',
+          },
+        },
+      })
+      .delete(`${url}/employees/1`)
+      .expect('status', 401)
+      .then((response) => {
+        const { json } = response;
+        expect(json.message)
+          .toBe('Unauthorized: this employee dont\'t have previliege to perform this action.');
+      });
+  });
+
+  it('It will be validated that it is not possible to delete an employee without '
+      + 'the token', async () => {
     await frisby
       .setup({
         request: {
@@ -93,7 +128,8 @@ describe('Verifica o endpoint DELETE `/employee/:id` funciona corretamente', () 
       });
   });
 
-  it('Será validado que não é possível deletar um funcionário com o token inválido', async () => {
+  it('It will be validated that it is not possible to delete an employee with the '
+      + 'invalid token', async () => {
     await frisby
       .setup({
         request: {

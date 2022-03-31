@@ -19,7 +19,8 @@
   "scripts": {
     "start": "node .",
     "test": "jest --runInBand",
-    "test-coverage": "jest --runInBand --coverage",
+    "tests": "jest ./tests --runInBand",
+    "tests-coverage": "jest ./tests --coverage --runInBand",
     "lint": "eslint --no-inline-config --no-error-on-unmatched-pattern -c .eslintrc.json ."
   },
   "dependencies": {

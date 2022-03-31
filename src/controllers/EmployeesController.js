@@ -25,14 +25,16 @@ const login = async (req, res, next) => {
 
 const update = async (req, res, next) => {
   const { id } = req.params;
-  const employee = await EmployeesService.update(id, req.body);
+  const { email } = req.employee;
+  const employee = await EmployeesService.update(id, email, req.body);
   if (employee.error) return next(employee.error);
   res.status(200).json(employee);
 };
 
 const removeById = async (req, res, next) => {
   const { id } = req.params;
-  const employee = await EmployeesService.removeById(id);
+  const { email } = req.employee;
+  const employee = await EmployeesService.removeById(id, email);
   if (employee.error) return next(employee.error);
   res.status(204).json();
 };

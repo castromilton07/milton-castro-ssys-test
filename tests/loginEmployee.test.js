@@ -7,7 +7,7 @@ const shell = require('shelljs');
 
 const url = 'http://localhost:3001';
 
-describe('Verifica o endpoint POST `/login` funciona corretamente', () => {
+describe('Check the POST endpoint `/login` works correctly', () => {
   beforeEach(() => {
     shell.exec('npx sequelize db:drop');
     shell.exec('npx sequelize db:create');
@@ -15,7 +15,7 @@ describe('Verifica o endpoint POST `/login` funciona corretamente', () => {
     shell.exec('npx sequelize db:seed:all');
   });
 
-  it('Será validado que é possível fazer login corretamente', async () => {
+  it('It will be validated that it is possible to login correctly', async () => {
     await frisby
       .post(`${url}/login`,
         {
@@ -30,7 +30,8 @@ describe('Verifica o endpoint POST `/login` funciona corretamente', () => {
       });
   });
 
-  it('Será validado que não é possível fazer login sem o campo `email`', async () => {
+  it('It will be validated that it is not possible to login without'
+      + 'the `email` field', async () => {
     await frisby
       .post(`${url}/login`,
         {
@@ -44,7 +45,8 @@ describe('Verifica o endpoint POST `/login` funciona corretamente', () => {
       });
   });
 
-  it('Será validado que não é possível fazer login sem o campo `password`', async () => {
+  it('It will be validated that it is not possible to login without '
+      + 'the `password` field', async () => {
     await frisby
       .post(`${url}/login`,
         {
@@ -58,7 +60,8 @@ describe('Verifica o endpoint POST `/login` funciona corretamente', () => {
       });
   });
 
-  it('Será validado que não é possível fazer login com o campo `email` em branco', async () => {
+  it('It will be validated that it is not possible to login with '
+      + 'the `email` field blank', async () => {
     await frisby
       .post(`${url}/login`,
         {
@@ -73,7 +76,8 @@ describe('Verifica o endpoint POST `/login` funciona corretamente', () => {
       });
   });
 
-  it('Será validado que não é possível fazer login com o campo `password` em branco', async () => {
+  it('It will be validated that it is not possible to login with '
+      + 'the `password` field blank', async () => {
     await frisby
       .post(`${url}/login`,
         {
@@ -88,7 +92,8 @@ describe('Verifica o endpoint POST `/login` funciona corretamente', () => {
       });
   });
 
-  it('Será validado que não é possível fazer login com um usuário que não existe', async () => {
+  it('It will be validated that it is not possible to login with '
+      + 'a user that does not exist', async () => {
     await frisby
       .post(`${url}/login`,
         {

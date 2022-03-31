@@ -6,7 +6,7 @@ const shell = require('shelljs');
 
 const url = 'http://localhost:3001';
 
-describe('Verifica o endpoint GET `/employees` funciona corretamente', () => {
+describe('Checks GET `/employees` endpoint works correctly', () => {
   beforeEach(() => {
     shell.exec('npx sequelize db:drop');
     shell.exec('npx sequelize db:create');
@@ -14,7 +14,7 @@ describe('Verifica o endpoint GET `/employees` funciona corretamente', () => {
     shell.exec('npx sequelize db:seed:all');
   });
 
-  it('Será validado que é possível listar todos os usuários', async () => {
+  it('It will be validated that it is possible to list all users', async () => {
     let token;
     await frisby
       .post(`${url}/login`,
@@ -63,7 +63,8 @@ describe('Verifica o endpoint GET `/employees` funciona corretamente', () => {
       });
   });
 
-  it('Será validado que não é possível listar usuários sem o token na requisição', async () => {
+  it('It will be validated that it is not possible to list users without the '
+      + 'token in the request', async () => {
     await frisby
       .setup({
         request: {
@@ -81,7 +82,8 @@ describe('Verifica o endpoint GET `/employees` funciona corretamente', () => {
       });
   });
 
-  it('Será validado que não é possível listar usuários com o token inválido', async () => {
+  it('It will be validated that it is not possible to list users with the '
+      + 'invalid token', async () => {
     await frisby
       .setup({
         request: {

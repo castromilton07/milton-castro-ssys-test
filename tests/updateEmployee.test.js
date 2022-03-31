@@ -7,7 +7,7 @@ const shell = require('shelljs');
 
 const url = 'http://localhost:3001';
 
-describe('Verifica o endpoint PATCH `/employee/:id` funciona corretamente', () => {
+describe('Check PATCH endpoint `/employee/:id` works correctly', () => {
   beforeEach(() => {
     shell.exec('npx sequelize db:drop');
     shell.exec('npx sequelize db:create');
@@ -15,7 +15,7 @@ describe('Verifica o endpoint PATCH `/employee/:id` funciona corretamente', () =
     shell.exec('npx sequelize db:seed:all');
   });
 
-  it('Será validado que é possível editar um funcionário com sucesso', async () => {
+  it('It will be validated that it is possible to edit an employee successfully', async () => {
     let token;
     await frisby
       .post(`${url}/login`,
@@ -60,7 +60,49 @@ describe('Verifica o endpoint PATCH `/employee/:id` funciona corretamente', () =
       });
   });
 
-  it('Será validado que não possível editar um funcionário sem token', async () => {
+  it('It will be validated that it is not possible to edit an employee with another '
+      + 'employee', async () => {
+    let token;
+    await frisby
+      .post(`${url}/login`,
+        {
+          email: 'kenobi@ssys.com.br',
+          password: 'kenobissys456',
+        })
+      .expect('status', 200)
+      .then((response) => {
+        const { body } = response;
+        const result = JSON.parse(body);
+        token = result.token;
+      });
+
+    await frisby
+      .setup({
+        request: {
+          headers: {
+            Authorization: token,
+            'Content-Type': 'application/json',
+          },
+        },
+      })
+      .patch(`${url}/employees/1`, {
+        name: 'Obi-Wan Kenobi',
+        email: 'kenobi@ssys.com.br',
+        password: 'skywalkerssys123',
+        department: 'Sr. Back-End',
+        salary: 4000.00,
+        birth_date: '01-01-1977',
+      })
+      .expect('status', 401)
+      .then((response) => {
+        const { json } = response;
+        expect(json.message)
+          .toBe('Unauthorized: this employee dont\'t have previliege to perform this action.');
+      });
+  });
+
+  it('It will be validated that it is not possible to edit an employee without '
+      + 'a token', async () => {
     await frisby
       .setup({
         request: {
@@ -85,7 +127,8 @@ describe('Verifica o endpoint PATCH `/employee/:id` funciona corretamente', () =
       });
   });
 
-  it('Será validado que não possível editar um funcionário com token inválido', async () => {
+  it('It will be validated that it is not possible to edit an employee with '
+      + 'an invalid token', async () => {
     await frisby
       .setup({
         request: {
@@ -109,7 +152,8 @@ describe('Verifica o endpoint PATCH `/employee/:id` funciona corretamente', () =
       });
   });
 
-  it('Será validado que não possível editar um funcinário sem algum dos campos', async () => {
+  it('It will be validated that it is not possible to edit an employee without '
+      + 'any of the fields', async () => {
     let token;
     await frisby
       .post(`${url}/login`,

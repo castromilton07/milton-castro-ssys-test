@@ -53,6 +53,12 @@ const errors = {
       message: 'Unauthorized: Expired or invalid token.',
     },
   },
+  invalidAccess: {
+    error: {
+      status: 401,
+      message: 'Unauthorized: this employee dont\'t have previliege to perform this action.',
+    },
+  },
   employeeNotFound: {
     error: {
       status: 404,

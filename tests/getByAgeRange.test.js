@@ -1,5 +1,4 @@
 /* eslint-disable sonarjs/no-identical-functions */
-/* eslint-disable max-len */
 /* eslint-disable max-lines-per-function */
 /* eslint-disable sonarjs/no-duplicate-string */
 
@@ -8,7 +7,7 @@ const shell = require('shelljs');
 
 const url = 'http://localhost:3001';
 
-describe('Verifica o endpoint GET `/reports/employees/age` funciona corretamente', () => {
+describe('Check endpoint GET `/reports/employees/age` works correctly', () => {
   beforeEach(() => {
     shell.exec('npx sequelize db:drop');
     shell.exec('npx sequelize db:create');
@@ -16,7 +15,8 @@ describe('Verifica o endpoint GET `/reports/employees/age` funciona corretamente
     shell.exec('npx sequelize db:seed:all');
   });
 
-  it('Será validado que é possível gerar o relatório de funcionários com base na idade corretamente', async () => {
+  it('It will be validated that it is possible to generate the employee report '
+      + 'based on age correctly', async () => {
     let token;
     await frisby
       .post(`${url}/login`,
@@ -62,7 +62,8 @@ describe('Verifica o endpoint GET `/reports/employees/age` funciona corretamente
       });
   });
 
-  it('Será validado que não é possível gerar o relatório de funcionários com base na idade sem o token na requisição', async () => {
+  it('It will be validated that it is not possible to generate the age-based employee '
+      + 'report without the token in the request', async () => {
     await frisby
       .setup({
         request: {
@@ -80,7 +81,8 @@ describe('Verifica o endpoint GET `/reports/employees/age` funciona corretamente
       });
   });
 
-  it('Será validado que não é possível gerar o relatório de funcionários com base na idade com o token inválido', async () => {
+  it('It will be validated that it is not possible to generate the age-based employee '
+      + 'report with the invalid token', async () => {
     await frisby
       .setup({
         request: {
