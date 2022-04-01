@@ -39,6 +39,8 @@ The application can be developed in any programming language and the interpretat
 - `npx sequelize db:migrate`
 - `npx sequelize db:seed:all`
 
+4. Rename `.example.env` file to `.env` an make changes that you deem necessary in the environment variables
+
 ---
 ## How to use
 
